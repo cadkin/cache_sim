@@ -26,14 +26,14 @@ enum class replace_policy {
 };
 
 struct arg_struct {
-    FILE* cache_sim_file;
-    uint64_t cache_block_size;
-    uint64_t cache_block_count;
-    assoc cache_associativity;
-    uint64_t cache_hit_time;
-    uint64_t cache_miss_time;
-    replace_policy cache_replace_policy;
-    bool cache_settings_valid;
+    FILE* cache_sim_file = nullptr;
+    uint64_t cache_block_size = 1;
+    uint64_t cache_block_count = 1;
+    assoc cache_associativity = assoc::dmap;
+    uint64_t cache_hit_time = 10;
+    uint64_t cache_miss_time = 20;
+    replace_policy cache_replace_policy = replace_policy::lru;
+    bool cache_settings_valid = 0;
 };
 
 const struct argp_option arg_options[] = {
