@@ -97,8 +97,8 @@ error_t parse_opt(int key, char* arg, argp_state* state) {
             break;
         }
         case ARGP_KEY_END: {
-            if (as->cache_block_count % as->cache_associativity) {
-                pquit(128, "Associativity must be a factor of block count. Please check this.\n");
+            if ((!as->cache_associativity) || (as->cache_block_count % as->cache_associativity)) {
+                pquit(128, "Associativity must be a factor of block count. Please double check this.\n");
             }
 
             if (state->arg_num < 1) argp_usage(state);

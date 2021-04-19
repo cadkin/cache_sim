@@ -47,7 +47,7 @@ void cache::simulate() {
         //printf("addr: %lu\n", addr);
 
         // Find block set containing this address.
-        uint64_t set = (addr % m_set_count);
+        uint64_t set = (((uint64_t)(addr / m_block_size)) % m_set_count);
         //printf("set no: %lu\n", set);
 
         // Loop through set to find if any contain this block.
@@ -90,7 +90,7 @@ void cache::status() {
 
     printf("%s\n", std::string(60, '=').c_str());
     for (uint64_t i = 0; i < m_block_count; i++) {
-        printf("%-10lu | %-10lu | %-10.10s | %-10lu | %-10lu\n",
+        printf("%-10lu | %-10lu | %-10.10s | 0x%-8lx | %-10lu\n",
                 i, i / m_associativity, (m_cache_mem[i].valid ? "true" : "false"),
                 m_cache_mem[i].addr, m_cache_mem[i].access);
     }
@@ -112,7 +112,6 @@ uint64_t cache::next_addr() {
         if (feof(this->m_file_ptr)) return UINT64_MAX;
         else pquit(128, "Unable to convert input from file.\n");
     }
-
 
     return addr;
 }
