@@ -3,7 +3,7 @@ PROG = cache_sim
 CXX = g++
 
 LINKFLAGS =
-CXXFLAGS = -g -Wall -MD -std=c++17
+CXXFLAGS = -g -Wall -MD -std=c++11
 
 SRC = $(wildcard src/*.cpp)
 OBJ = $(SRC:.cpp=.o)

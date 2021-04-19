@@ -4,6 +4,9 @@
 #include <regex>
 #include <string>
 
+// C
+#include <string.h>
+
 error_t parse_opt(int key, char* arg, argp_state* state) {
     struct arg_struct* as = (struct arg_struct*)state->input;
 
@@ -89,7 +92,7 @@ error_t parse_opt(int key, char* arg, argp_state* state) {
             FILE* fptr = fopen(arg, "r");
 
             if (fptr == NULL) {
-                pquit(256, "Cannot open file '%s': %s", arg, strerror(errno));
+                pquit(256, "Cannot open file '%s': %s\n", arg, strerror(errno));
             }
 
             as->cache_sim_file = fptr;
