@@ -21,7 +21,7 @@ cache::cache(arg_struct* iarg) {
     m_associativity = iarg->cache_associativity;
     m_set_count = m_block_count / m_associativity;
 
-    m_cache_mem = (cache_block*)malloc(m_block_count * sizeof(cache_block));
+    m_cache_mem = (cache_block*)calloc(m_block_count, sizeof(cache_block));
 
     // Set timing.
     m_hit_time = iarg->cache_hit_time;
