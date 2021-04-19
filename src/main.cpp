@@ -8,6 +8,7 @@
 
 int main(int argc, char** argv) {
     setenv(ARGP_HELP_FMT_EVAR, ARGP_HELP_FMT_FMT, 0);
+    srand(0);
 
     struct arg_struct cache_settings;
     argp_parse(&arg_params, argc, argv, 0, nullptr, &cache_settings);
@@ -15,8 +16,7 @@ int main(int argc, char** argv) {
 
     cache c(&cache_settings);
     c.simulate();
-    std::string cache_result = c.status();
-    printf("Results:\n%s\n", cache_result.c_str());
+    c.status();
 
     fclose(cache_settings.cache_sim_file);
     return 0;

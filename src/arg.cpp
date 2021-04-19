@@ -33,17 +33,14 @@ error_t parse_opt(int key, char* arg, argp_state* state) {
             break;
         }
         case 'a': {
-            std::string type = std::string(arg);
+            char* endptr;
+            uint64_t assoc = strtoul(arg, &endptr, 10);
 
-            if (type == "dmap") {
-                as->cache_associativity = assoc::dmap;
+            if ((assoc == 0 && errno != 0) || (*endptr != '\0')) {
+                pquit(128, "Unable to read integer for associativity.\n");
             }
-            else if (type == "two_way") {
-                as->cache_associativity = assoc::two_way;
-            }
-            else {
-                pquit(128, "Unknown associativity '%s' specified. Use either 'dmap' or 'two_way'.\n", arg);
-            }
+
+            as->cache_associativity = assoc;
 
             break;
         }
@@ -81,7 +78,7 @@ error_t parse_opt(int key, char* arg, argp_state* state) {
                 as->cache_replace_policy = replace_policy::lru;
             }
             else {
-                pquit(128, "Unknown associativity '%s' specified. Use either 'random' or 'lru'.\n", arg);
+                pquit(128, "Unknown replacement policy '%s' specified. Use either 'random' or 'lru'.\n", arg);
             }
 
             break;
@@ -100,6 +97,10 @@ error_t parse_opt(int key, char* arg, argp_state* state) {
             break;
         }
         case ARGP_KEY_END: {
+            if (as->cache_block_count % as->cache_associativity) {
+                pquit(128, "Associativity must be a factor of block count. Please check this.\n");
+            }
+
             if (state->arg_num < 1) argp_usage(state);
             else as->cache_settings_valid = true;
             break;
